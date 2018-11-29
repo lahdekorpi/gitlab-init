@@ -1,6 +1,6 @@
 {
   "name": "gitlab-init",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Clones all the repositories you have access to (unless they already exist)",
   "main": "index.js",
   "scripts": {

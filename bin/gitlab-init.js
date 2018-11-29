@@ -3,7 +3,7 @@ const Gitlab = require("gitlab/dist/es5").default
 const fs = require("fs");
 const program = require("commander");
 const colors = require("colors");
-const pkg = require("./package");
+const pkg = require("../package");
 const { spawn } = require("child_process");
 
 program

@@ -1,16 +1,20 @@
 {
-  "name": "gitlab-init",
-  "version": "1.0.1",
-  "description": "Clones all the repositories you have access to (unless they already exist)",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Toni Lähdekorpi <toni@lygon.net>",
-  "license": "MIT",
-  "dependencies": {
-    "colors": "^1.3.2",
-    "commander": "^2.19.0",
-    "gitlab": "^4.2.7"
-  }
+	"name": "gitlab-init",
+	"version": "1.0.2",
+	"description": "Clones all the repositories you have access to (unless they already exist)",
+	"main": "./bin/gitlab-init.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Toni Lähdekorpi <toni@lygon.net>",
+	"license": "MIT",
+	"bin": {
+		"gitlab-init": "./bin/gitlab-init.js"
+	},
+	"preferGlobal": "true",
+	"dependencies": {
+		"colors": "^1.3.2",
+		"commander": "^2.19.0",
+		"gitlab": "^4.2.7"
+	}
 }

@@ -1,5 +1,10 @@
 # gitlab-init
-A simple CLI tool that connects to your Gitlab installation, lists all projects you have access to and attempts to git clone them into the same folder structure as in Gitlab.
+**A simple CLI tool that connects to your Gitlab installation, lists all projects you have access to and attempts to git clone them into the same folder structure as in Gitlab.**
+
+Why on earth would you need this?  
+- When installing a new machine and wanting to get a quick start
+- Getting new people joining your team quickly set up
+- Use a unified directory structure for everyone
 
 ## Installation
 

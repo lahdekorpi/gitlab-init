@@ -45,7 +45,6 @@ const api = new Gitlab({
 
 async function gitClone(url, path) {
 	return new Promise(resolve => {
-		const { spawn } = require("child_process");
 		const git = spawn("git", ["clone", url, path]);
 
 		git.stdout.on("data", data => console.log(data.toString()).gray);

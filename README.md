@@ -5,6 +5,7 @@ Why on earth would you need this?
 - When installing a new machine and wanting to get a quick start
 - Getting new people joining your team quickly set up
 - Use a unified directory structure for everyone
+- When you just want to git clone all Gitlab projects
 
 ## Installation
 

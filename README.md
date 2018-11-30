@@ -17,7 +17,7 @@ Why on earth would you need this?
 ## Usage
 
 ```
-Usage: index [options]
+Usage: gitlab-init [options]
 
 Options:
   -V, --version           output the version number

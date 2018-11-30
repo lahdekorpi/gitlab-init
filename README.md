@@ -9,9 +9,10 @@ Why on earth would you need this?
 ## Installation
 
 1. Install git and node
-2. `git clone https://github.com/lahdekorpi/gitlab-init.git`
-3. `cd gitlab-init`
-4. `npm install`
+2. `npm -g install gitlab-init`
+3. `mkdir projects`
+4. `gitlab-init -e https://your-gitlab-url -t your-token`
+5. Success!
 
 ## Usage
 

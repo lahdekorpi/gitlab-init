@@ -1,20 +1,24 @@
 {
-	"name": "gitlab-init",
-	"version": "1.0.4",
-	"description": "Clones all the repositories you have access to (unless they already exist)",
-	"main": "./bin/gitlab-init.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"author": "Toni Lähdekorpi <toni@lygon.net>",
-	"license": "MIT",
-	"bin": {
-		"gitlab-init": "./bin/gitlab-init.js"
-	},
-	"preferGlobal": "true",
-	"dependencies": {
-		"colors": "^1.3.2",
-		"commander": "^2.19.0",
-		"gitlab": "^4.2.7"
-	}
+  "name": "gitlab-init",
+  "version": "1.0.4",
+  "description": "Clones all the repositories you have access to (unless they already exist)",
+  "main": "./bin/gitlab-init.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "author": "Toni Lähdekorpi <toni@lygon.net>",
+  "license": "MIT",
+  "bin": {
+    "gitlab-init": "./bin/gitlab-init.js"
+  },
+  "preferGlobal": "true",
+  "dependencies": {
+    "colors": "^1.3.2",
+    "commander": "^2.19.0",
+    "gitlab": "^4.2.7",
+    "snyk": "^1.192.3"
+  },
+  "snyk": true
 }

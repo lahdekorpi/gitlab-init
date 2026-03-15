@@ -20,7 +20,14 @@ if (!process.argv.slice(2).length) {
 	process.exit(1);
 }
 
-const path = fs.realpathSync.native(program.path.toString()) + "/";
+// Ensure the root projects directory exists
+const targetDir = program.path.toString();
+if (!fs.existsSync(targetDir)) {
+	fs.mkdirSync(targetDir, { recursive: true });
+}
+
+// Resolve real path and ensure it ends with a slash
+const path = fs.realpathSync.native(targetDir) + "/";
 
 const api = new Gitlab({
 	url: program.endpoint,
@@ -29,35 +36,52 @@ const api = new Gitlab({
 
 (async()=>{
 	console.log(`Getting projects from ${program.endpoint}\n`.underline.blue);
-	let projects = await api.Projects.all({ maxPages:10, perPage:program.max });
+
+	// Fetch projects with pagination
+	const maxPages = parseInt(program.max, 10) || 10;
+	let projects = await api.Projects.all({ maxPages: maxPages, perPage: 10 });
 
 	for(const project of projects) {
 		console.log("Project: ".cyan + project.name + "\n");
-		if(project.description.length > 0) {
+		// Log project description if it exists
+		if(project.description && project.description.length > 0) {
 			console.log(project.description + "\n");
 		}
-		console.log(" PATH: ".bgBlue + "  " + path + project.path_with_namespace);
+		const clonePath = path + project.path_with_namespace;
+		console.log(" PATH: ".bgBlue + "  " + clonePath);
 		console.log("  GIT: ".bgBlue + "  " + project.ssh_url_to_repo);
 		console.log("\n");
-		await gitClone(project.ssh_url_to_repo, path + project.path_with_namespace);
+
+		// Check if the directory already exists
+		if (fs.existsSync(clonePath)) {
+			console.log("  SKIP  ".bgYellow + ` Directory already exists: ${clonePath}`.gray + "\n");
+		} else {
+			await gitClone(project.ssh_url_to_repo, clonePath);
+		}
 	}
 })();
 
+/**
+ * Clones a git repository into the specified path.
+ * @param {string} url - The SSH or HTTP URL of the git repository.
+ * @param {string} path - The local filesystem path where the repository should be cloned.
+ * @returns {Promise<void>}
+ */
 async function gitClone(url, path) {
 	return new Promise(resolve => {
 		const git = spawn("git", ["clone", url, path]);
 
-		git.stdout.on("data", data => console.log(data.toString()).gray);
-		git.stderr.on("data", data => console.error(data.toString().gray));
+		git.stdout.on("data", data => process.stdout.write(data.toString().gray));
+		git.stderr.on("data", data => process.stderr.write(data.toString().gray));
 		git.on("close", code => {
 			if(code === 0) {
-				console.log("  OK!  ".bgGreen);
+				console.log("  OK!  ".bgGreen + "\n");
 				resolve();
 			} else {
 				console.log(" ERROR ".bgRed);
-				console.error(`git process exited with code ${code}`);
+				console.error(`git process exited with code ${code}`.red + "\n");
 				resolve();
 			}
 		});
-	})
+	});
 }

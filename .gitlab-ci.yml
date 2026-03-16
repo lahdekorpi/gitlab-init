@@ -1,0 +1,11 @@
+stages:
+  - release
+
+release:
+  stage: release
+  image: node:lts
+  script:
+    - npm ci
+    - npx semantic-release
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

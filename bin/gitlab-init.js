@@ -3,7 +3,7 @@ const { Gitlab } = require("@gitbeaker/rest");
 const fs = require("fs");
 const { program } = require("commander");
 const colors = require("colors");
-const pkg = require("../package");
+const pkg = require("../package.json");
 const { spawn } = require("child_process");
 
 program
@@ -40,7 +40,7 @@ const api = new Gitlab({
 
 	// Fetch projects with pagination
 	const maxPages = parseInt(options.max, 10) || 10;
-	let projects = await api.projects.all({ maxPages: maxPages, perPage: 10 });
+	let projects = await api.Projects.all({ maxPages: maxPages, perPage: 10 });
 
 	for(const project of projects) {
 		console.log("Project: ".cyan + project.name + "\n");

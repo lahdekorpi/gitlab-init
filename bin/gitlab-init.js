@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-const Gitlab = require("gitlab/dist/es5").default
+const { Gitlab } = require("@gitbeaker/rest");
 const fs = require("fs");
-const program = require("commander");
+const { program } = require("commander");
 const colors = require("colors");
 const pkg = require("../package");
 const { spawn } = require("child_process");
@@ -14,6 +14,7 @@ program
 	.option("-p, --path [directory]","Root projects directory where the project will be cloned into","./projects/")
 	.parse(process.argv);
 
+const options = program.opts();
 
 if (!process.argv.slice(2).length) {
 	program.outputHelp(txt=>colors.red(txt));
@@ -21,7 +22,7 @@ if (!process.argv.slice(2).length) {
 }
 
 // Ensure the root projects directory exists
-const targetDir = program.path.toString();
+const targetDir = options.path.toString();
 if (!fs.existsSync(targetDir)) {
 	fs.mkdirSync(targetDir, { recursive: true });
 }
@@ -30,16 +31,16 @@ if (!fs.existsSync(targetDir)) {
 const path = fs.realpathSync.native(targetDir) + "/";
 
 const api = new Gitlab({
-	url: program.endpoint,
-	token: program.token
+	host: options.endpoint,
+	token: options.token
 });
 
 (async()=>{
-	console.log(`Getting projects from ${program.endpoint}\n`.underline.blue);
+	console.log(`Getting projects from ${options.endpoint}\n`.underline.blue);
 
 	// Fetch projects with pagination
-	const maxPages = parseInt(program.max, 10) || 10;
-	let projects = await api.Projects.all({ maxPages: maxPages, perPage: 10 });
+	const maxPages = parseInt(options.max, 10) || 10;
+	let projects = await api.projects.all({ maxPages: maxPages, perPage: 10 });
 
 	for(const project of projects) {
 		console.log("Project: ".cyan + project.name + "\n");
